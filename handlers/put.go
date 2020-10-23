@@ -8,6 +8,8 @@ import (
 
 // swagger:route PUT /products products updateProduct
 // Update a products details
+// responses:
+//	200: productsResponse
 
 // Update handles PUT requests to update products
 func (p *Products) Update(rw http.ResponseWriter, r *http.Request) {

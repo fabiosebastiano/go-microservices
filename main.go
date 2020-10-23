@@ -23,7 +23,8 @@ func main() {
 
 	sm := mux.NewRouter()
 	getRouter := sm.Methods(http.MethodGet).Subrouter()
-	getRouter.HandleFunc("/", ph.ListAll)
+	getRouter.HandleFunc("/products", ph.ListAll)
+	getRouter.HandleFunc("/products/{id:[0-9]+}", ph.ListSingle)
 
 	// Usiamo il middleware REDOCS per servire i DOCs prodotti con SWAGGER
 	// ########### BEGIN
