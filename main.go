@@ -10,6 +10,7 @@ import (
 
 	"github.com/fabiosebastiano/go-microservices/product-api/data"
 	"github.com/fabiosebastiano/go-microservices/product-api/handlers"
+	gohandlers "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -46,9 +47,13 @@ func main() {
 	deleteRouter := sm.Methods(http.MethodDelete).Subrouter()
 	deleteRouter.HandleFunc("/{id:[0-9]+}", ph.DeleteProduct)
 
+	// GESTIONE CORS TRAMITE GORILLA
+	ch := gohandlers.CORS(gohandlers.AllowedOrigins([]string{"http://localhost:3000"}))
+
 	s := &http.Server{
 		Addr:         ":9090",
-		Handler:      sm,
+		Handler:      ch(sm), //wrappo l'handler in quello per gestire i CORS
+		ErrorLog:     l,
 		IdleTimeout:  120 * time.Second,
 		ReadTimeout:  1 * time.Second,
 		WriteTimeout: 1 * time.Second,
